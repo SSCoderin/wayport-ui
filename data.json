@@ -1,0 +1,25 @@
+{
+    "source": "DELHI",
+    "destination": "MUMBAI",
+    "paths": {
+      "0": [
+        { "type": "node", "nodename ": "mumbai" ,"arrivaltime": "10:10","departuretime": "12:00"  },
+        { "type": "path", "mode": "train" ,"duration": "5  min","name": "yuvi train" },
+        { "type": "node", "nodename ": "delhi" ,"arrivaltime": "12:05","departuretime": "1:00"  }
+      ],
+      "1": [
+        { "type": "node", "nodename ": "mumbai" ,"arrivaltime": "10:10","departuretime": "12:00"  },
+        { "type": "path", "mode": "train" ,"duration": "5  min","name": "yuvi train" },
+        { "type": "node", "nodename ": "pune" ,"arrivaltime": "12:05","departuretime": "12:10"  },
+        { "type": "path", "mode": "train" ,"duration": "13 min","name": "akash train" },
+        { "type": "node", "nodename ": "delhi" ,"arrivaltime": "12:23","departuretime": "1:00"  }
+      ],
+      "2": [
+        { "type": "node", "nodename ": "mumbai" ,"arrivaltime": "10:10","departuretime": "12:00"  },
+        { "type": "path", "mode": "train" ,"duration": "5  min","name": "yuvi train" },
+        { "type": "node", "nodename ": "pune" ,"arrivaltime": "12:05","departuretime": "12:10"  },
+        { "type": "path", "mode": "flight" ,"duration": "10 min","name": "shiv flight" },
+        { "type": "node", "nodename ": "delhi" ,"arrivaltime": "12:20","departuretime": "1:00"  }
+      ]
+    }
+  }
