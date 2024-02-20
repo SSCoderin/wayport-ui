@@ -3,115 +3,75 @@
 import Edge from "@/components/edge";
 import Node from "@/components/node";
 import { useEffect, useState } from "react";
+import useSWR from "swr";
+
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export default function Home() {
-  // const data = {
-  //   source: "DELHI",
-  //   destination: "MUMBAI",
-  //   paths: {
-  //     0: [
-  //       {
-  //         type: "node",
-  //         nodename: "mumbai",
-  //         arrivaltime: "10:10",
-  //         departuretime: "12:00",
-  //       },
-  //       { type: "path", mode: "train", duration: "5  min", name: "yuvi train" },
-  //       {
-  //         type: "node",
-  //         nodename: "delhi",
-  //         arrivaltime: "12:05",
-  //         departuretime: "1:00",
-  //       },
-  //     ],
-  //     1: [
-  //       {
-  //         type: "node",
-  //         nodename: "Mumbai",
-  //         arrivaltime: "10:10",
-  //         departuretime: "12:00",
-  //       },
-  //       { type: "path", mode: "train", duration: "5  min", name: "yuvi train" },
-  //       {
-  //         type: "node",
-  //         nodename: "pune",
-  //         arrivaltime: "12:05",
-  //         departuretime: "12:10",
-  //       },
-  //       {
-  //         type: "path",
-  //         mode: "train",
-  //         duration: "13 min",
-  //         name: "akash train",
-  //       },
-  //       {
-  //         type: "node",
-  //         nodename: "delhi",
-  //         arrivaltime: "12:23",
-  //         departuretime: "1:00",
-  //       },
-  //     ],
-  //     2: [
-  //       {
-  //         type: "node",
-  //         nodename: "mumbai",
-  //         arrivaltime: "10:10",
-  //         departuretime: "12:00",
-  //       },
-  //       { type: "path", mode: "train", duration: "5  min", name: "yuvi train" },
-  //       {
-  //         type: "node",
-  //         nodename: "pune",
-  //         arrivaltime: "12:05",
-  //         departuretime: "12:10",
-  //       },
-  //       {
-  //         type: "path",
-  //         mode: "flight",
-  //         duration: "10 min",
-  //         name: "shiv flight",
-  //       },
-  //       {
-  //         type: "node",
-  //         nodename: "delhi",
-  //         arrivaltime: "12:20",
-  //         departuretime: "1:00",
-  //       },
-  //     ],
-  //   },
-  // };
+  const { src, dest } = { src: "NED", dest: "RK" };
 
-  const [data, setData] = useState({});
+  const { data, error } = useSWR(
+    `/api?source=${src}&destination=${dest}`,
+    fetcher
+  );
 
-  const { src, dest } = { src: "nanded", dest: "roorkee" };
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
 
-  useEffect(() => {
-    fetch(`/api`).then((resp) => {
-      setData(resp);
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetch(`/api?source=${src}&destination=${dest}`)
+  //     .then((resp) => {
+  //       return resp.json();
+  //     })
+  //     .then((datares) => {
+  //       // console.log(datares);
+  //       setData(datares);
+  //     });
+  // }, []);
 
   return (
     <main>
-      {Object.keys(data.paths).map((path) => {
-        return (
-          <div className="path">
-            {data.paths[path].map((item) => {
-              if (item.type == "node") {
-                return (
-                  <Node
-                    name={item.nodename}
-                    Atime={item.arrivaltime}
-                    Dtime={item.departuretime}
-                  />
-                );
-              } else if (item.type == "path") {
-                return <Edge mode={item.mode} duration={item.duration} />;
-              }
-            })}
-          </div>
-        );
-      })}
+      {/* {JSON.stringify(data)} */}
+      {data.paths ? (
+        data.paths
+          .filter((path, index, array) => {
+            // Use indexOf to check if the current path is the first occurrence in the array
+            return (
+              array.findIndex(
+                (item) => JSON.stringify(item) === JSON.stringify(path)
+              ) === index
+            );
+          })
+          .sort((a, b) => a.length - b.length)
+          .map((path, i) => {
+            return (
+              <div key={i} className="path">
+                {i + 1}.
+                {path.map((item) => {
+                  if (item.type == "node") {
+                    return (
+                      <Node
+                        name={item.properties.stationName}
+                        Atime={item.arrivaltime ?? ""}
+                        Dtime={item.departuretime ?? ""}
+                      />
+                    );
+                  } else if (item.type == "path") {
+                    return (
+                      <Edge
+                        mode={"train"}
+                        duration={item.properties.Distance}
+                        no={item.properties.TrainNumber}
+                      />
+                    );
+                  }
+                })}
+              </div>
+            );
+          })
+      ) : (
+        <p>Loading</p>
+      )}
     </main>
   );
 }
