@@ -7,9 +7,7 @@ import useSWR from "swr";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-export default function Home() {
-  const { src, dest } = { src: "NED", dest: "RK" };
-
+const PathResults = ({ src, dest }) => {
   const { data, error } = useSWR(
     `/api?source=${src}&destination=${dest}`,
     fetcher
@@ -18,20 +16,8 @@ export default function Home() {
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;
 
-  // useEffect(() => {
-  //   fetch(`/api?source=${src}&destination=${dest}`)
-  //     .then((resp) => {
-  //       return resp.json();
-  //     })
-  //     .then((datares) => {
-  //       // console.log(datares);
-  //       setData(datares);
-  //     });
-  // }, []);
-
   return (
-    <main>
-      {/* {JSON.stringify(data)} */}
+    <div>
       {data.paths ? (
         data.paths
           .filter((path, index, array) => {
@@ -72,6 +58,36 @@ export default function Home() {
       ) : (
         <p>Loading</p>
       )}
+    </div>
+  );
+};
+
+export default function Home() {
+  const { src, dest } = { src: "NED", dest: "RK" };
+
+  // useEffect(() => {
+  //   fetch(`/api?source=${src}&destination=${dest}`)
+  //     .then((resp) => {
+  //       return resp.json();
+  //     })
+  //     .then((datares) => {
+  //       // console.log(datares);
+  //       setData(datares);
+  //     });
+  // }, []);
+
+  const [startFetching, setStartFetching] = useState(false);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setStartFetching(true);
+  };
+
+  return (
+    <main>
+      <button onClick={(e) => handleClick(e)}>Search</button>
+      {/* {JSON.stringify(data)} */}
+      {startFetching && <PathResults src={src} dest={dest} />}
     </main>
   );
 }
