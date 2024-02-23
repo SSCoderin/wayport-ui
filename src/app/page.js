@@ -23,6 +23,7 @@ const PathResults = ({ src, dest }) => {
           .filter((path, index, array) => {
             // Use indexOf to check if the current path is the first occurrence in the array
             return (
+              path.length <= 5 &&
               array.findIndex(
                 (item) => JSON.stringify(item) === JSON.stringify(path)
               ) === index
@@ -37,9 +38,9 @@ const PathResults = ({ src, dest }) => {
                   if (item.type == "node") {
                     return (
                       <Node
-                        name={item.properties.stationName}
-                        Atime={item.arrivaltime ?? ""}
-                        Dtime={item.departuretime ?? ""}
+                        name={item.properties.cityName}
+                        // Atime={item.arrivaltime ?? ""}
+                        // Dtime={item.departuretime ?? ""}
                       />
                     );
                   } else if (item.type == "path") {
@@ -48,6 +49,8 @@ const PathResults = ({ src, dest }) => {
                         mode={"train"}
                         duration={item.properties.Distance}
                         no={item.properties.TrainNumber}
+                        at={item.properties.ArrivalTime}
+                        dt={item.properties.DepartureTime}
                       />
                     );
                   }
@@ -63,7 +66,7 @@ const PathResults = ({ src, dest }) => {
 };
 
 export default function Home() {
-  const { src, dest } = { src: "NED", dest: "RK" };
+  const { src, dest } = { src: "Nanded", dest: "Roorkee" };
 
   // useEffect(() => {
   //   fetch(`/api?source=${src}&destination=${dest}`)

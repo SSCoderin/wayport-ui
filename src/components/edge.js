@@ -1,4 +1,4 @@
-export default function Edge({ mode, duration, no }) {
+export default function Edge({ mode, duration, no, at, dt }) {
   return (
     <div className="edge">
       <div className="border">
@@ -8,7 +8,15 @@ export default function Edge({ mode, duration, no }) {
           <img className="imagemapping" src={"flight.svg"}></img>
         )}
       </div>
-        <p>{no}</p>
+      <p>{no}</p>
+      <div className="time">
+        <p>
+          {dt.hour.low}:{dt.minute.low}
+        </p>
+        <p>
+          {at.hour.low}:{at.minute.low}
+        </p>
+      </div>
       {/* <div>
         <p>{duration}</p>
       </div> */}
