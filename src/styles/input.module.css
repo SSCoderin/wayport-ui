@@ -1,0 +1,30 @@
+.card {
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 200px;
+    border-radius: 30px;
+    padding: 16px;
+    background-color: #f3f3f3;
+    box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.25);
+    margin-top: 48px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+    padding-left: 64px;
+    padding-right: 64px;
+}
+
+.cardinborder{
+    width: 250px;
+    border-radius: 8px;
+    border: 1px solid black;
+    padding-left: 8px;
+    padding-top: 16px;
+    font-size: 12px;
+    padding-bottom: 16px;
+}
+.incard{
+    margin-top: 16px;
+    height: 40PX;
+margin-right: 8px;}

@@ -51,6 +51,16 @@ main {
   bottom: 100%;
 }
 
+.station {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  width: 100%;
+  top: 100%;
+  color: gray;
+  font-size: 12px;
+}
+
 .path {
   margin: 10px;
   display: flex;
